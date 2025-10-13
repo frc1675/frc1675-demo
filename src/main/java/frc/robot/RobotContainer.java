@@ -18,6 +18,7 @@ public class RobotContainer {
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 
   public Counter counter = new Counter();
+  public Roller roller = new Roller();
   
   private final CommandXboxController driverController =
       new CommandXboxController(OperatorConstants.DriverControllerPort);
@@ -39,7 +40,10 @@ public class RobotContainer {
 
   public void teleopInit() {
     // Write code here to run when teleop starts
-    counter.increment(2);
+    // Just like all comments, "commented out" code does not run. This is usually a bad practice.
+    // counter.increment(2);
+
+    roller.startMotor();
   }
 
   public void teleopPeriodic() {
