@@ -17,10 +17,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 
-  /** This is a variable with the type of Counter, our custom class. By saying new Counter(),
-   * we are creating an object that is a counter. We use our blueprint (Counter) to create a
-   * working object that we can use.
-   **/
   public Counter counter = new Counter();
   
   private final CommandXboxController driverController =
@@ -43,7 +39,6 @@ public class RobotContainer {
 
   public void teleopInit() {
     // Write code here to run when teleop starts
-    /* Here, we call the increment method we wrote in the Counter class. */
     counter.increment(2);
   }
 
