@@ -38,15 +38,14 @@ public class RobotContainer {
     return Autos.exampleAuto(exampleSubsystem);
   }
 
+  // Write code here to run when teleop starts
   public void teleopInit() {
-    // Write code here to run when teleop starts
-    // Just like all comments, "commented out" code does not run. This is usually a bad practice.
-    // counter.increment(2);
-
-    roller.startMotor();
+    // When we called roller.startMotor() here, nothing happened. Technically, it increased the voltage to 0.04, but that wasn't strong enough to actually spin the roller.
   }
 
+  // Write code here to run every loop during teleop
   public void teleopPeriodic() {
-    // Write code here to run every loop during teleop
+    // After we moved this here, we were able to observe the roller on the robot accelerate.
+    roller.startMotor();
   }
 }
