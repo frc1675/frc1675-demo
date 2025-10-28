@@ -7,9 +7,11 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.HoldToPowerCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -24,6 +26,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
   public Counter counter = new Counter();
+  public Roller roller = new Roller();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverController =
@@ -51,7 +54,10 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+    //driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+    driverController.a().onTrue(new InstantCommand(() -> roller.startMotor()));
+    driverController.b().onTrue(new InstantCommand(() -> roller.stopMotor()));
+    driverController.x().whileTrue(new HoldToPowerCommand(roller));
   }
 
   /**
@@ -66,7 +72,9 @@ public class RobotContainer {
 
   public void teleopInit() {
     // Write code here to run when teleop starts
-    counter.increment(2);
+   // counter.increment(2);
+   //roller.startMotor();
+   
   }
 
   public void teleopPeriodic() {
