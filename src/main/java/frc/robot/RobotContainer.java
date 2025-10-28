@@ -7,9 +7,11 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.HoldToPowerCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -31,7 +33,10 @@ public class RobotContainer {
     new Trigger(exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(exampleSubsystem));
 
-    driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+   // driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+   driverController.a().onTrue(new InstantCommand(() -> roller.startMotor()));
+   driverController.b().onTrue(new InstantCommand(() -> roller.stopMotor()));
+   driverController.x().whileTrue(new HoldToPowerCommand(roller));
   }
 
   public Command getAutonomousCommand() {
@@ -43,10 +48,9 @@ public class RobotContainer {
     // Just like all comments, "commented out" code does not run. This is usually a bad practice.
     // counter.increment(2);
 
-    roller.startMotor();
+    
   }
 
   public void teleopPeriodic() {
-    // Write code here to run every loop during teleop
   }
 }
