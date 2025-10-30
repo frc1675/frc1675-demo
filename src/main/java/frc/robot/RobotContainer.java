@@ -7,9 +7,11 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.HoldToPowerCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -20,6 +22,12 @@ public class RobotContainer {
   public Counter counter = new Counter();
   public Roller roller = new Roller();
   
+
+  /**
+   * This object represents an Xbox controller. This is an example that
+   * comes with the default robot project. We can register a second
+   * controller the same way.
+   */
   private final CommandXboxController driverController =
       new CommandXboxController(OperatorConstants.DriverControllerPort);
   
@@ -31,7 +39,20 @@ public class RobotContainer {
     new Trigger(exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(exampleSubsystem));
 
-    driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+    /**
+     * This is how we bind actions to buttons on a controller.
+     * driverController.a() refers to the A button, and onTrue means to run this
+     * command once when the button is pressed. We can use an InstantCommand
+     * here, which is a way to register a single method as a command.
+     */
+    driverController.a().onTrue(new InstantCommand(() -> roller.startMotor()));
+    driverController.b().onTrue(new InstantCommand(() -> roller.stopMotor()));
+
+    /**
+     * If we use whileTrue instead of onTrue, the command stays active until the
+     * button is released. See the HoldToPowerCommand for more details.
+     */
+    driverController.x().whileTrue(new HoldToPowerCommand(roller));
   }
 
   public Command getAutonomousCommand() {
@@ -40,12 +61,9 @@ public class RobotContainer {
 
   // Write code here to run when teleop starts
   public void teleopInit() {
-    // When we called roller.startMotor() here, nothing happened. Technically, it increased the voltage to 0.04, but that wasn't strong enough to actually spin the roller.
   }
 
   // Write code here to run every loop during teleop
   public void teleopPeriodic() {
-    // After we moved this here, we were able to observe the roller on the robot accelerate.
-    roller.startMotor();
   }
 }
