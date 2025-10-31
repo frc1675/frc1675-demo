@@ -17,26 +17,30 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 @Logged
 public class RobotContainer {
-  private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 
-  public Counter counter = new Counter();
-  public Roller roller = new Roller();
   
-  private final CommandXboxController driverController =
-      new CommandXboxController(OperatorConstants.DriverControllerPort);
+    private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
   
-  public RobotContainer() {
-    configureBindings();
-  }
+    public Counter counter = new Counter();
+    public Roller roller = new Roller();
+    
+    private final CommandXboxController driverController =
+        new CommandXboxController(OperatorConstants.DriverControllerPort);
+    
+    public RobotContainer() {
+      configureBindings();
+    }
+  
+    private void configureBindings() {
+      new Trigger(exampleSubsystem::exampleCondition)
+          .onTrue(new ExampleCommand(exampleSubsystem));
+  
+     // driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+     driverController.a().onTrue(new InstantCommand(() -> roller.startMotor()));
+     driverController.b().onTrue(new InstantCommand(() -> roller.stopMotor()));
+     driverController.x().whileTrue(new HoldToPowerCommand(roller));
+     driverController.leftBumper().whileTrue(new HoldToPowerCommand(roller));
 
-  private void configureBindings() {
-    new Trigger(exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(exampleSubsystem));
-
-   // driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
-   driverController.a().onTrue(new InstantCommand(() -> roller.startMotor()));
-   driverController.b().onTrue(new InstantCommand(() -> roller.stopMotor()));
-   driverController.x().whileTrue(new HoldToPowerCommand(roller));
   }
 
   public Command getAutonomousCommand() {

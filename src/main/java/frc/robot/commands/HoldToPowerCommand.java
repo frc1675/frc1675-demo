@@ -21,6 +21,8 @@ public class HoldToPowerCommand extends Command {
   @Override
   public void initialize() {
     roller.startMotor();
+    roller.startMotorMotor();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,6 +33,7 @@ public class HoldToPowerCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     roller.stopMotor();
+    roller.stopMotorMotor();
   }
 
   // Returns true when the command should end.
