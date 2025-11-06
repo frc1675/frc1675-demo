@@ -39,20 +39,10 @@ public class RobotContainer {
     new Trigger(exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(exampleSubsystem));
 
-    /**
-     * This is how we bind actions to buttons on a controller.
-     * driverController.a() refers to the A button, and onTrue means to run this
-     * command once when the button is pressed. We can use an InstantCommand
-     * here, which is a way to register a single method as a command.
-     */
     driverController.a().onTrue(new InstantCommand(() -> roller.startMotor()));
     driverController.b().onTrue(new InstantCommand(() -> roller.stopMotor()));
 
-    /**
-     * If we use whileTrue instead of onTrue, the command stays active until the
-     * button is released. See the HoldToPowerCommand for more details.
-     */
-    driverController.x().whileTrue(new HoldToPowerCommand(roller));
+    driverController.leftBumper().whileTrue(new HoldToPowerCommand(roller));
   }
 
   public Command getAutonomousCommand() {

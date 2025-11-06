@@ -5,22 +5,23 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 public class Roller {
   /**
-   * When we make something "final", it becomes a constant, meaning the value
-   * cannot change. We use these to configure things on the robot, so they can
-   * be easily updated and it's clearer than putting random numbers in the code.
-   * Constants should generally go in the Constants file but we just have them
-   * here for now.
+   * This lesson was a review activity where we set up a second motor to run.
+   * This is one way to make that happen.
    */
-  private static final int ROLLER_MOTOR = 20;
-  private static final double MOTOR_SPEED_ON = 2.0;
+  private static final int ROLLER_MOTOR_TOP = 17;
+  private static final int ROLLER_MOTOR_BOTTOM = 20;
+  private static final double MOTOR_SPEED_ON = -4.0;
   private static final double MOTOR_SPEED_OFF = 0.0;
-  private SparkMax motor = new SparkMax(ROLLER_MOTOR, MotorType.kBrushless);
+  private SparkMax motorTop = new SparkMax(ROLLER_MOTOR_TOP, MotorType.kBrushless);
+  private SparkMax motorBottom = new SparkMax(ROLLER_MOTOR_BOTTOM, MotorType.kBrushless);
 
   public void startMotor() {
-    motor.setVoltage(MOTOR_SPEED_ON);
+    motorTop.setVoltage(MOTOR_SPEED_ON);
+    motorBottom.setVoltage(MOTOR_SPEED_ON);
   }
-
+  
   public void stopMotor() {
-    motor.setVoltage(MOTOR_SPEED_OFF);
+    motorTop.setVoltage(MOTOR_SPEED_OFF);
+    motorBottom.setVoltage(MOTOR_SPEED_OFF);
   }
 }
