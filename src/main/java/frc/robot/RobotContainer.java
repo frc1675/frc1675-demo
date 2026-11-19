@@ -8,8 +8,15 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Intake;
+
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -22,13 +29,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 @Logged
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+private final SparkMax myMotor = new SparkMax (67, MotorType.kBrushless);
+private double speed = 0.0;
+private final Intake intake = new Intake();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController driverController =
-      new CommandXboxController(OperatorConstants.DriverControllerPort);
+  // Replace with CommandPS4Controller or CommandJoystick if needed private final CommandXboxController driverController =
+private final CommandXboxController driverController =
+  new CommandXboxController(OperatorConstants.DriverControllerPort);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /** The container for the ro
+   *bot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
@@ -50,7 +61,8 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+    //driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+  driverController.a().onTrue(new InstantCommand(()->intake.intake()));
   }
 
   /**
@@ -63,11 +75,37 @@ public class RobotContainer {
     return Autos.exampleAuto(exampleSubsystem);
   }
 
-  public void teleopInit() {
-    // Write code here to run when teleop starts
+   public void teleopInit() {
+  //   // Write code here to run when teleop starts
+  //   setMotorPower(30);
   }
 
+  // public void setMotorPower(double percentage) {
+  //   double proportion = percentage / 100.0;
+  //   double voltage = 12.0 * proportion;
+  //   motor.setVoltage(voltage);
+  // }
+
+
   public void teleopPeriodic() {
-    // Write code here to run every loop during teleop
+
   }
+
+   public void setPower(double power){
+    //double power = 0.2;
+    double voltage = power * 12.0; 
+      myMotor.setVoltage(voltage);
+
+  }
+  //  public void setMotorPower(double percentage) {
+  //   double proportion = percentage / 100.0;
+  //   double power = 12 * proportion;
+  //    motor .setVoltage(power);
+
+ 
+
+  //   // Write code here to run every loop during teleop
+ 
+  // }
 }
+
