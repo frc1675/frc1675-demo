@@ -30,7 +30,7 @@ enum State {
   public void periodic() {
     if (currentState == State.INTAKING) {
       motorLeft.setVoltage(INTAKE_POWER);
-      motorRight.set(-INTAKE_POWER);
+      motorRight.setVoltage(-INTAKE_POWER);
     }
     
   if (currentState == State.OUTTAKING) {
